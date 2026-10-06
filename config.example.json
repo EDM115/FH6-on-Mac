@@ -1,0 +1,6 @@
+{
+  "runtime": "/absolute/path/to/private/crossover-gptk4-runtime",
+  "bottle": "/absolute/path/to/private/FH6-bottle",
+  "loader": "/absolute/path/to/private/diagnostic-wineloader",
+  "steam_exe": "C:\\Program Files (x86)\\Steam\\steam.exe"
+}

@@ -1,0 +1,25 @@
+# All local runtime, account, generated shader and diagnostic data belong here
+.local/
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+# Catch accidental copies of lab outputs outside .local/ too
+*.dll
+*.exe
+*.dylib
+*.so
+*.o
+*.obj
+*.dSYM/
+*.dxil
+*.metallib
+*.bin
+*.log
+*.dmp
+*.zip
+*.tar
+*.gz
+*.dmg
+*.app/
+config.local.json

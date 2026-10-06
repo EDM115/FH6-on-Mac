@@ -1,0 +1,360 @@
+{
+  "description": "Selected authored sources from the private lab; relative identifiers only. Export adapters and documentation are maintained separately. No captured results are distributed.",
+  "snapshot_date": "2026-10-06",
+  "files": [
+    {
+      "source": "work/display-size-shim/build_pe.py",
+      "export": "tools/build_pe.py",
+      "adapted": true,
+      "source_sha256": "2ceb4e47bd8c3d98b2e879050fadf04a1942e26f538c6482631464587e753348"
+    },
+    {
+      "source": "work/depth-resolve-2026-10-04/depth_source_trial.mm",
+      "export": "src/depth/depth_source_trial.mm",
+      "adapted": false,
+      "source_sha256": "44eafa8cb8ad6c5c51c3ecfea16c6122bfc82318b7ae63891472883d3f48d7bc"
+    },
+    {
+      "source": "work/menu-rendering/pipeline_log_capture.c",
+      "export": "src/diagnostics/pipeline_log_capture.c",
+      "adapted": false,
+      "source_sha256": "587487643fd0c3dac03616418386287b9615931b514fc636ffd7d0b6d8cd2a75"
+    },
+    {
+      "source": "work/shading-rate-repro/shader_trial.cpp",
+      "export": "src/shaders/shader_trial.cpp",
+      "adapted": false,
+      "source_sha256": "34b98071ac0b14017c5e5123dbc3998f559f23f2d47db4e8680a08d2f855ac72"
+    },
+    {
+      "source": "work/shading-rate-repro/dxil_tool.cpp",
+      "export": "src/shaders/dxil_tool.cpp",
+      "adapted": false,
+      "source_sha256": "b6e5593cf427a2208b836dba87bdcd0b3667cc7edf02b7ead9ba89333a74eaa0"
+    },
+    {
+      "source": "work/shading-rate-repro/extract_cache.py",
+      "export": "tools/extract_cache.py",
+      "adapted": true,
+      "source_sha256": "9a63bd61dde0a150767dcacb3b4138f3dbd4b76b87d5b31a4dfa114efa68448d"
+    },
+    {
+      "source": "work/shading-rate-repro/repro.mm",
+      "export": "tests/native/shading_rate_repro.mm",
+      "adapted": false,
+      "source_sha256": "d8a9804adac93243a8797c567dbf47407af257dc839f9270a0ddbf2c136a6404"
+    },
+    {
+      "source": "work/shading-rate-repro/fallback.ll",
+      "export": "tests/native/shading_rate_fallback.ll",
+      "adapted": true,
+      "source_sha256": "21cd4fa0937a6be8ee83a0ad678a27a55369089d8988ec9d7ec86fb449f3abb5"
+    },
+    {
+      "source": "work/depth-resolve-2026-10-04/depth_fragment_probe.mm",
+      "export": "tests/native/depth_fragment_probe.mm",
+      "adapted": false,
+      "source_sha256": "28957942261b19f61ee4f18c40544a3a28987871eae21ecf090e19f8004b010c"
+    },
+    {
+      "source": "work/depth-resolve-2026-10-04/depth_read_probe.mm",
+      "export": "tests/native/depth_read_probe.mm",
+      "adapted": false,
+      "source_sha256": "ea52b87102027d052e5bba9d1c9073a7ab120d915b5064f9831f66683078d843"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/frame_timing_session.py",
+      "export": "tools/frame_timing_session.py",
+      "adapted": true,
+      "source_sha256": "40a88879ab7a65daf7943030d9ca1abe3c0aefa344164b853d7bb44dfce47aea"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/read_process_session.py",
+      "export": "tools/read_process_session.py",
+      "adapted": true,
+      "source_sha256": "c69521bee553e927a4757746e14564809023fcf1bcf64c73cefb9a69eafea0a2"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/build_window_inventory.py",
+      "export": "tools/build_window_inventory.py",
+      "adapted": true,
+      "source_sha256": "93b7ab66f6632de474b072c2b2d42168b6cb7a68fd94ce78d88f05720232a473"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/window_snapshot.py",
+      "export": "tools/window_snapshot.py",
+      "adapted": true,
+      "source_sha256": "bcaaf16bccff4fef0f1c1c277fbd80a364b64fd78429861d1ed6aa4468994aae"
+    },
+    {
+      "source": "work/shading-rate-repro/prepare_fallbacks.py",
+      "export": "tools/prepare_fallbacks.py",
+      "adapted": true,
+      "source_sha256": "eba96ff33ba2ac9f59071b330340b455d007eb7eedd2969614e089bcef7da8d9"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/test_ui_clock_step.py",
+      "export": "experiments/clock-causality/test_ui_clock_step.py",
+      "adapted": true,
+      "source_sha256": "b1391e6f8ebe634ae521fd22ee61affdbb4dc773d5372c63000193426b5c4df5"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/test_ui_clock_paced.py",
+      "export": "experiments/clock-causality/test_ui_clock_paced.py",
+      "adapted": true,
+      "source_sha256": "26a09bca0fb6137b7dd8200098bab960c821fdbc00b4285de2e3648ca9ab2e4d"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/test_ui_clock_paced_resume.py",
+      "export": "experiments/clock-causality/test_ui_clock_paced_resume.py",
+      "adapted": true,
+      "source_sha256": "610e9e2afcba14ca2265277d7aa1ffdb3c4540ff2344f1afd64c7e2be611d57c"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/test_ui_clock_loading_recheck.py",
+      "export": "experiments/clock-causality/test_ui_clock_loading_recheck.py",
+      "adapted": true,
+      "source_sha256": "80286f27ca625923f7141f08391990c875dde9021906af627ba115038ea869e7"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/test_frame_timing_source.py",
+      "export": "experiments/clock-causality/test_frame_timing_source.py",
+      "adapted": true,
+      "source_sha256": "eb57d367eab4c711f0a9cbfaf37c564932a3bcf5873d93e7678892578291292b"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/sample_ui_time.py",
+      "export": "experiments/clock-causality/sample_ui_time.py",
+      "adapted": true,
+      "source_sha256": "91bd5cedc0a830f3f25656897810ac4cdc5ac0e50a60aeec6c53617088438a10"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/watch_ui_time_focus.py",
+      "export": "experiments/clock-causality/watch_ui_time_focus.py",
+      "adapted": true,
+      "source_sha256": "48e15ca077f39c5626178c0d498a5ad96c66866fbbd23b04dfa7c5078d9d2fa9"
+    },
+    {
+      "source": "work/popup-transition-trial/prepare.py",
+      "export": "experiments/ui-transition/prepare.py",
+      "adapted": true,
+      "source_sha256": "8758b97b6e4ff9357f124874276527c6b48fbaa14e0e7183a23fec664e7d0f2d"
+    },
+    {
+      "source": "work/menu-rendering/launch_metal3_test.py",
+      "export": "experiments/rendering-comparisons/launch_metal3_test.py",
+      "adapted": true,
+      "source_sha256": "914cf592a02197233e67157ce52e5098bd13fd83ad5c339371b05519ef9bf01e"
+    },
+    {
+      "source": "work/menu-rendering/launch_standard_dpi_menu.py",
+      "export": "experiments/rendering-comparisons/launch_standard_dpi_menu.py",
+      "adapted": true,
+      "source_sha256": "3837b60e7006ef0f57824001cfbbc18cba56fcefb11faa31b22c8e63d2e17b50"
+    },
+    {
+      "source": "work/menu-rendering/launch_metal_validation.py",
+      "export": "experiments/rendering-comparisons/launch_metal_validation.py",
+      "adapted": true,
+      "source_sha256": "8ecb9554233cf7bc884fefea1433c8c3f1147d59040012f5d1dcd15ab6568174"
+    },
+    {
+      "source": "work/menu-rendering/launch_shader_validation.py",
+      "export": "experiments/rendering-comparisons/launch_shader_validation.py",
+      "adapted": true,
+      "source_sha256": "2f643fb2428b6b52472e083cfaac2d7b5b1c02fe278c1f618507601a9c2b02cf"
+    },
+    {
+      "source": "work/menu-rendering/launch_native_cpp_menu.py",
+      "export": "experiments/rendering-comparisons/launch_native_cpp_menu.py",
+      "adapted": true,
+      "source_sha256": "05bb5b720cb79ceb88426324582c5a85c2df34971cd311d2d8587ac444733c83"
+    },
+    {
+      "source": "work/menu-rendering/launch_ui_errors.py",
+      "export": "experiments/rendering-comparisons/launch_ui_errors.py",
+      "adapted": true,
+      "source_sha256": "2d8ceee37ff77a94e671442a4a73e40cd5f219bf303886a6529aeeccedd46e58"
+    },
+    {
+      "source": "work/menu-rendering/launch_pipeline_interposed.py",
+      "export": "experiments/rendering-comparisons/launch_pipeline_interposed.py",
+      "adapted": true,
+      "source_sha256": "4985bf093a74bf83076963c1d88ef2db5ca142ddc872ce092144f35e86ac086c"
+    },
+    {
+      "source": "work/display-size-shim/build_proxy.py",
+      "export": "experiments/startup-display-api/build_proxy.py",
+      "adapted": true,
+      "source_sha256": "df25c8acbe0087eda28deb5231f9c88824376ba5f606c8305e0066a08d65c2ff"
+    },
+    {
+      "source": "work/display-size-shim/redirect_schema.py",
+      "export": "experiments/startup-display-api/redirect_schema.py",
+      "adapted": true,
+      "source_sha256": "ae340490407ae04ef72b5ffe8cd57cec30bc8a86d3814b578acd74a81fbf71fa"
+    },
+    {
+      "source": "work/display-size-shim/restore_schema.py",
+      "export": "experiments/startup-display-api/restore_schema.py",
+      "adapted": true,
+      "source_sha256": "96f69559e6c8fc9cd22e4ef0154cc1d3d4dfd4d53133bceff40b4546b2ad4388"
+    },
+    {
+      "source": "work/display-size-shim/redirect_import.py",
+      "export": "experiments/startup-display-api/redirect_import.py",
+      "adapted": true,
+      "source_sha256": "21b0dcc9cb34ef30e0f8bb3235b41d314374db43536a4d80c06f34fc0e81dc13"
+    },
+    {
+      "source": "work/display-size-shim/restore_import.py",
+      "export": "experiments/startup-display-api/restore_import.py",
+      "adapted": true,
+      "source_sha256": "414334338e969093a3280979d1084c25721292337e30cce6bfb934819e9690ad"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/read_saved_waits.py",
+      "export": "experiments/process-inspection/read_saved_waits.py",
+      "adapted": true,
+      "source_sha256": "f9b21f535ca5c91373710445f3e6a6eb9fe5ffd2b1e6d3cebb309711de0a1d6c"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/read_saved_waits_timed.py",
+      "export": "experiments/process-inspection/read_saved_waits_timed.py",
+      "adapted": true,
+      "source_sha256": "f39be05f75e1d582d9b09d2f15eea2e7e49666d09397e37665847bbcfda9a623"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/read_saved_waits_named.py",
+      "export": "experiments/process-inspection/read_saved_waits_named.py",
+      "adapted": true,
+      "source_sha256": "ce9a2cdf28f28e7796ed8131a51934050d38c8a7111b060ed8216b4a0dd0ea9e"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/query_wait_events.py",
+      "export": "experiments/process-inspection/query_wait_events.py",
+      "adapted": true,
+      "source_sha256": "1588a8d1ba865626e65d6d32e86a9c3816d659bfa24d8bb1057c2dbd79750068"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/query_wait_semaphores.py",
+      "export": "experiments/process-inspection/query_wait_semaphores.py",
+      "adapted": true,
+      "source_sha256": "6f35180f3e726a6a05d72dc9be78c602f8dc8f6f4046944bfa14a350325feca0"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/unwind_saved_wait.py",
+      "export": "experiments/process-inspection/unwind_saved_wait.py",
+      "adapted": true,
+      "source_sha256": "5f5569a1545763f33245fd22ce8e27499f8a6318faa042ce5948b2de62d68634"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/read_native_assertion.py",
+      "export": "experiments/process-inspection/read_native_assertion.py",
+      "adapted": true,
+      "source_sha256": "70050de0ac023e19b8c4289c39ad35d60dc07487920649daf77d26fdd9457ccb"
+    },
+    {
+      "source": "work/signin-resume-2026-10-04/sample_loading_file_offsets.py",
+      "export": "experiments/process-inspection/sample_loading_file_offsets.py",
+      "adapted": true,
+      "source_sha256": "1dab2f5ef5cc520bd8f1006eadf839949d7b4adb96ef94b701c7f2bd223c74cf"
+    },
+    {
+      "source": "work/child-pipeline-2026-10-04/build_child_probe.py",
+      "export": "experiments/loader-injection/build_child_probe.py",
+      "adapted": true,
+      "source_sha256": "c45a689ded4e57e13044e74fba23927470514e2b1c7dd6c96acebacc08ec31b9"
+    },
+    {
+      "source": "work/memory-warning-2026-10-04/read_memory.py",
+      "export": "experiments/memory-accounting/read_memory.py",
+      "adapted": true,
+      "source_sha256": "3eacf4bb2f94297c247f1a36b9390983dffd896545ff507c011d389aba933ca4"
+    },
+    {
+      "source": "work/depth-resolve-2026-10-04/texture_diagnostic.mm",
+      "export": "experiments/depth-logging/texture_diagnostic.mm",
+      "adapted": false,
+      "source_sha256": "5a8239688fefb2237b96e5ce3ead9f061d281b114a35bcf55e692c113f9e83bf"
+    },
+    {
+      "source": "work/depth-resolve-2026-10-04/texture_diagnostic_v2.mm",
+      "export": "experiments/depth-logging/texture_diagnostic_v2.mm",
+      "adapted": false,
+      "source_sha256": "efa8775f8d8d92954bbae6983de8eb8dfce31119459d6ab582a787372a27cec7"
+    },
+    {
+      "source": "work/depth-resolve-2026-10-04/texture_probe.mm",
+      "export": "experiments/depth-logging/texture_probe.mm",
+      "adapted": false,
+      "source_sha256": "c27858de3e49dff8ddac26ec7119b1e8b5aa3af2c86b63caa29f67d1076ac4d3"
+    },
+    {
+      "source": "work/depth-resolve-2026-10-04/texture_probe_v2.mm",
+      "export": "experiments/depth-logging/texture_probe_v2.mm",
+      "adapted": false,
+      "source_sha256": "4ba92aa361e31eaf9274104b27132ec55341c628131dcc8b89260968b113e1c3"
+    },
+    {
+      "source": "work/display-size-shim/display_size.s",
+      "export": "experiments/startup-display-api/display_size.s",
+      "adapted": false,
+      "source_sha256": "d20cc0aa1dba823ff80873d4b47377fdb26b375c652689d53a7e8e9f91ab797d"
+    },
+    {
+      "source": "work/display-size-shim/probe.s",
+      "export": "experiments/startup-display-api/probe.s",
+      "adapted": false,
+      "source_sha256": "1da20231cf8fc07dd0708090ea8b4911b11b562b69bd4c90a060b70ae2aa7893"
+    },
+    {
+      "source": "work/display-size-shim/probe_direct.s",
+      "export": "experiments/startup-display-api/probe_direct.s",
+      "adapted": false,
+      "source_sha256": "5ff94e1ad5930860b01d4699be54c190e137ca4ffd1efb0b3d381a36b8c9a355"
+    },
+    {
+      "source": "work/display-size-shim/probe_forward.s",
+      "export": "experiments/startup-display-api/probe_forward.s",
+      "adapted": false,
+      "source_sha256": "0dc2fab8b88621137e627c8436e4df67401c15d71c9b7fec0e3b874c3760e012"
+    },
+    {
+      "source": "work/shading-rate-repro/capture_dxil.cpp",
+      "export": "experiments/shader-capture/capture_dxil.cpp",
+      "adapted": false,
+      "source_sha256": "6575956bf069f2ed73832995378142f9121e77228c29594d26b8f7ed412570f2"
+    },
+    {
+      "source": "work/menu-rendering/pipeline_log_probe.c",
+      "export": "tests/native/pipeline_log_probe.c",
+      "adapted": false,
+      "source_sha256": "a1281d7948aa68c953be93847172ba384e9d7d69904a9e5b49851f2fd0e3fa9a"
+    },
+    {
+      "source": "work/display-size-shim/display_size.s",
+      "export": "src/display/display_size.s",
+      "adapted": false,
+      "source_sha256": "d20cc0aa1dba823ff80873d4b47377fdb26b375c652689d53a7e8e9f91ab797d"
+    },
+    {
+      "source": "work/display-size-shim/build_proxy.py",
+      "export": "tools/build_display_proxy.py",
+      "adapted": true,
+      "source_sha256": "df25c8acbe0087eda28deb5231f9c88824376ba5f606c8305e0066a08d65c2ff"
+    },
+    {
+      "source": "work/display-size-shim/redirect_schema.py",
+      "export": "tools/install_display_proxy.py",
+      "adapted": true,
+      "source_sha256": "ae340490407ae04ef72b5ffe8cd57cec30bc8a86d3814b578acd74a81fbf71fa"
+    },
+    {
+      "source": "work/display-size-shim/restore_schema.py",
+      "export": "tools/restore_display_proxy.py",
+      "adapted": true,
+      "source_sha256": "96f69559e6c8fc9cd22e4ef0154cc1d3d4dfd4d53133bceff40b4546b2ad4388"
+    }
+  ]
+}
