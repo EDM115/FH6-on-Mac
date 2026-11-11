@@ -5,8 +5,8 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 IGNORED={'.git','.local','.venv','__pycache__'}
-ALLOWED={'.md','.py','.c','.cpp','.m','.mm','.s','.ll','.json'}
-NAMES={'LICENSE','.gitignore'}
+ALLOWED={'.md','.py','.c','.cpp','.m','.mm','.s','.ll','.json','.h','.def','.patch'}
+NAMES={'LICENSE','.gitignore','GPL-3.0','LGPL-2.1','DirectX-Headers-MIT'}
 PATTERNS={
     'absolute home path':re.compile(r'/(?:Users|home)/[A-Za-z0-9_.-]+/'),
     'private temporary path':re.compile(r'/(?:private/)?var/folders/[A-Za-z0-9_/.-]+'),

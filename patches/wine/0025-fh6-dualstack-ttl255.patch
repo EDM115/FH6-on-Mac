@@ -1,0 +1,57 @@
+--- a/dlls/ws2_32/socket.c
++++ b/dlls/ws2_32/socket.c
+@@ -3213,6 +3213,45 @@
+ /***********************************************************************
+  *		setsockopt		(WS2_32.21)
+  */
++/* Opt-in FH6 trial, Darwin couples the native IPv6 hop limit to dual-stack IPv4 TTL */
++static int fh6_set_ip_ttl( SOCKET s, const char *optval, int optlen )
++{
++    static LONG diagnostics;
++    struct sockaddr_storage address;
++    WCHAR gate[2];
++    DWORD value, error, fallback_error;
++    BYTE v6only = 1; /* Wine returns one byte for IPV6_V6ONLY */
++    int ret, type, size;
++
++    ret = server_setsockopt( s, IOCTL_AFD_WINE_SET_IP_TTL, optval, optlen );
++    error = GetLastError();
++    if (!ret || error != WSAEINVAL || !optval || optlen != sizeof(value)) return ret;
++    memcpy( &value, optval, sizeof(value) );
++    if (value != 255) return ret;
++    if (GetEnvironmentVariableW( L"FH6_DUALSTACK_TTL255", gate, ARRAY_SIZE(gate) ) != 1 || gate[0] != '1')
++        goto unchanged;
++    size = sizeof(address);
++    if (getsockname( s, (struct sockaddr *)&address, &size ) || address.ss_family != AF_INET6)
++        goto unchanged;
++    size = sizeof(type);
++    if (getsockopt( s, SOL_SOCKET, SO_TYPE, (char *)&type, &size ) || type != SOCK_DGRAM)
++        goto unchanged;
++    size = sizeof(v6only);
++    if (getsockopt( s, IPPROTO_IPV6, IPV6_V6ONLY, (char *)&v6only, &size ) || v6only)
++        goto unchanged;
++    ret = server_setsockopt( s, IOCTL_AFD_WINE_SET_IPV6_UNICAST_HOPS, optval, optlen );
++    fallback_error = GetLastError();
++    if (InterlockedIncrement( &diagnostics ) <= 32)
++        fprintf( stderr, "FH6_UDP_TTL255 pid=%lu tid=%lu socket=%Ix original_error=%lu result=%d error=%lu\n",
++                 GetCurrentProcessId(), GetCurrentThreadId(), s, error, ret, fallback_error );
++    SetLastError( fallback_error );
++    return ret;
++
++unchanged:
++    SetLastError( error );
++    return ret;
++}
++
+ int WINAPI setsockopt( SOCKET s, int level, int optname, const char *optval, int optlen )
+ {
+     DWORD value = 0;
+@@ -3555,7 +3594,7 @@
+                 SetLastError( WSAEFAULT );
+                 return -1;
+             }
+-            return server_setsockopt( s, IOCTL_AFD_WINE_SET_IP_TTL, optval, optlen );
++            return fh6_set_ip_ttl( s, optval, optlen );
+ 
+         case IP_UNBLOCK_SOURCE:
+             return server_setsockopt( s, IOCTL_AFD_WINE_SET_IP_UNBLOCK_SOURCE, optval, optlen );

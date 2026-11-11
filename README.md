@@ -1,50 +1,61 @@
 # FH6 on Mac
 
-Forza Horizon 6 running through CrossOver and Apple's Game Porting Toolkit, with a few fixes for startup, UI timing and graphics. We reached Xbox sign-in, the garage and controllable driving on October 4th 2026. There's still plenty to fix.  
-This repo contains the source, setup notes and experiments from that work. You'll need your own copies of FH6, CrossOver and GPTK. **Setup is manual, and the fixes target specific builds.** The packaged tools haven't had a fresh end-to-end game run yet; the working result came from the original lab scripts.
+Forza Horizon 6 running through CrossOver and Apple's Game Porting Toolkit, with fixes for startup, timing, graphics, saved sign-in and online sessions. The October 24 and 25 tests reached driving, populated shared free roam and The Eliminator on build 461.691. Several audio and rendering problems remain, along with recurring frame pauses  
+This repo contains the source, patches, setup notes and experiments from that work. You'll need your own copies of FH6, CrossOver and GPTK. **Setup is manual and the fixes target specific builds.** The lab runs establish the gameplay results. The exported tools have separate checks, but setup from an empty checkout and bottle has not been replayed end to end
 
 ## Demo
 
-You can check a full 16min+ video showcasing how the game runs so far (October 4th) and what the issues are : https://www.youtube.com/watch?v=akHFtDcVHV4
+The [October 4 demo](https://www.youtube.com/watch?v=akHFtDcVHV4) shows the earlier build 440.853 setup. It predates the improvements below
+
+## What changed on October 24 and 25
+
+| Area | Result |
+| --- | --- |
+| Timing and title update | The timestamp shim restored advancing menu/frame time without the old per-launch CPU-selector write. Build 461.691 reached the garage and driving |
+| Saved Xbox sign-in | A credential prefix-lookup fix preserved the registry matches. Three clean relaunches remembered sign-in |
+| Liveries | Explicit vertex input offsets repaired the tested Tacoma's broken metallic-looking artwork |
+| Audio | Channel ordering and the native spatial mixer restored engine sound and voices initially. Engine/car-impact audio can still disappear after a car change |
+| Memory display | System Memory changed from 160,146 MB to 9,796 MB in the recorded game comparison. The patch corrects accounting, it does not free 150 GB of RAM |
+| msync | A paired client/server patch fixed a reproduced wait-registration leak. It did not remove the recurring game pauses |
+| Online | A narrow dual-stack TTL workaround restored session setup. Its final one-byte guard correction made online work with extra diagnostics disabled |
+
+[The October investigation](docs/advances-2026-10.md) explains the evidence and failed comparisons. [Known issues](docs/limitations.md) records the remaining limits
 
 ## Tested setup
 
-| Component | Version |
+| Component | October 24 and 25 test version |
 | --- | --- |
 | Mac | MacBook Pro M5 Max, 64 GB unified memory |
 | macOS | 27.0.1 |
-| CrossOver | 26.3, Wine 11-derived engine |
+| CrossOver source/runtime | 26.3, Wine 11-derived engine |
 | Apple runtime | Game Porting Toolkit 4.0 beta 2, Metal 4 backend |
-| Game | Windows Steam release, build 440.853 |
+| Game | Windows Steam build 25588841, executable version 6.461.691.0 |
 
-Sign-in, Settings, loading and driving worked in the tested session. Engine audio, some materials and texture transitions still have problems. Race loading can take a long time, and we've seen stutter and input lag. Online gameplay features tried so far haven't loaded. The game also reports nonsense memory and FPS values. See [known issues](docs/limitations.md).
+These are dated test results, not a compatibility claim for later game or GPTK releases. The guarded launcher checks the game, renderer and tested component hashes. The old address-based timing helper rejects this updated executable
 
 ## Get started
 
-1. [Prepare a private runtime and bottle](docs/setup.md).
-2. [Build the helpers and generate shaders locally](docs/setup.md#build-the-helpers).
-3. [Launch the game and apply the timing fix](docs/launch.md).
-
-The timing helper selects the game's CPU timing source once per launch. The earlier experiment that advanced UI time at a steady cadence is in the archive; you don't need that loop to play.
+1. [Prepare private runtime and bottle copies](docs/setup.md)
+2. [Build the newer Wine components and timestamp/layout shim](docs/wine-components.md), keeping the shader and depth repairs
+3. [Launch the tested current stack](docs/launch.md)
 
 ## What's here
 
 | Path | Contents |
 | --- | --- |
-| [tools/](tools/) | Build, shader preparation, launch and timing helpers |
-| [src/](src/) | Depth-view repair, shader overlay, display API stub and graphics logger |
-| [tests/](tests/) | Synthetic graphics probes and packaging checks |
-| [docs/how-it-works.md](docs/how-it-works.md) | The fixes and the evidence behind them |
-| [docs/investigation.md](docs/investigation.md) | What we tried, what failed and what changed our diagnosis |
-| [experiments/](experiments/) | Selected old scripts, grouped by investigation |
-| [docs/next-steps.md](docs/next-steps.md) | Work still to do |
+| [tools/](tools/) | Build, patch verification, shader preparation and guarded launch helpers |
+| [src/](src/) | Authored depth-view repair, shader overlay, display stub and graphics logger |
+| [patches/wine/](patches/wine/) | The checked Wine patch sequence, including the final online workaround |
+| [third_party/](third_party/) | Attributed timestamp/layout shim and the small headers needed by its tests/build |
+| [experiments/](experiments/) | New probes and dated results alongside the original investigation archive |
+| [tests/](tests/) | Export, launch, shader and one-byte socket-guard checks |
+| [docs/next-steps.md](docs/next-steps.md) | Remaining investigation work |
 
 ## Under the hood
 
-CrossOver/Wine handles Windows APIs, Rosetta 2 translates x86-64 code, and Apple's D3DMetal translates Direct3D graphics to Metal. We added small compatibility hooks and diagnostic tools. Proton was a research reference; this setup doesn't install Proton or a custom renderer. [Dependencies and credits](docs/dependencies.md) list the projects involved.  
-We used AI assistance during the investigation, with repeated local tests and manual checks in the game. The docs distinguish those results from theories and later playtest observations.
+CrossOver/Wine handles Windows APIs, Rosetta 2 translates x86-64 code and Apple's D3DMetal translates Direct3D graphics to Metal. The newer work uses Highball's timestamp shim and Wine patches, with a beta 2 layout backport and the local TTL guard correction. [Dependencies and credits](docs/dependencies.md) records the sources  
+The [MIT license](LICENSE) covers the independently authored parts of this repo. The Highball-derived shim retains GPLv3 terms, Wine-derived patches and fixtures retain LGPL terms, and the header notices are preserved. See [third-party notices](THIRD_PARTY_NOTICES.md). Game files, vendor runtimes, account bottles, extracted shaders and private captures are not included
 
 ## Contributing
 
-Include your game build, macOS version, chip, CrossOver/GPTK versions and the step that fails. A short description of the failure is more useful than an entire bottle or crash dump. Review anything you attach for account details, sign-in codes and local paths.  
-[LICENSE](LICENSE) covers the authored code in this repo. It doesn't cover the game, vendor runtimes or shaders extracted from your copy. We keep those files out of the repository.
+Include the game build, macOS version, chip, CrossOver/GPTK versions and the step that fails. Review diagnostic files for account details and local paths before sharing them. Development continues in the private lab, the maintainer handles Git operations for these curated exports

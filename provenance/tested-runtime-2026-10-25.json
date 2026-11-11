@@ -1,0 +1,24 @@
+{
+  "tested_on": "2026-10-25",
+  "game": {
+    "version": "6.461.691.0",
+    "steam_build": "25588841",
+    "sha256": "b8c18ec88ab3143da03c3bb9bd9d0761f23e00f809b1bd9d50cf07496e5d1ce5"
+  },
+  "components": {
+    "lib/wine/x86_64-windows/ntdll.dll": "6dff64c00793ce92124f1316985c63783f539f26b392975c70f57637458d2387",
+    "lib/wine/x86_64-windows/advapi32.dll": "9598e0ad06c5fb45af5d6de634d011d2e9d37e0443bffeed6b54ed925b397fbe",
+    "lib/wine/x86_64-windows/mmdevapi.dll": "7465f90072a60928f0ae5406e8fea3978228f367d313949936fb602a07dcd195",
+    "lib/wine/x86_64-windows/winecoreaudio.drv": "32ddae7010a889840c5a96b93299ddffd5f497b8e6b38ce78188ca9aa294549f",
+    "lib/wine/x86_64-unix/winecoreaudio.so": "5a4b2bdf470b7b667609b595cc3d70d2c38b413b0745ac4955522b00305f9996",
+    "lib64/apple_gptk/wine/x86_64-windows/d3d12.dll": "c849b4f3d48505ac67a5f3a9fef22d80716d1d373239a97c63d9d2df7f155195",
+    "lib64/apple_gptk/external/D3DMetal.framework/Versions/A/D3DMetal": "f5b56df1b8fe8b364dd9530651a3769c8aed948bd343be3b4510604d503e2bad",
+    "lib/wine/x86_64-unix/ntdll.so": "24e73a85eb7d1c806a0813f441a4f6931f2623867c44f27001bfc7ea70e2decc",
+    "bin/wineserver": "902024c55ea4dee8121db8bd4e96c90db8125afc72bfa199ebb596d1800bb055",
+    "lib/wine/x86_64-windows/winhttp.dll": "d78c67a36ae0b0aea189f9d200baca2229e7dc2955c8d39d7829ef6ed1068c74",
+    "lib/wine/x86_64-unix/ws2_32.so": "62bb40dda1563a0ab7ee78f4c074c06d13cc405677c6e53619b0827bd7271ebd",
+    "lib/wine/x86_64-windows/ws2_32.dll": "f0329ea99db344de2251ea4b5599acf864e3d6e73b3372095a8aeba00e08d988",
+    "lib64/apple_gptk/wine/x86_64-windows/apd12.dll": "f1bcaa4d79e4353e075e7f284ebcb2d44a1b0cb2aa88f01f6341dc3c518b976f"
+  },
+  "scope": "Hashes identify the tested lab binaries, not portable reproducible-build guarantees"
+}

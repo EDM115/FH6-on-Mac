@@ -1,0 +1,118 @@
+--- a/dlls/ws2_32/socket.c
++++ b/dlls/ws2_32/socket.c
+@@ -3214,32 +3214,107 @@
+  *		setsockopt		(WS2_32.21)
+  */
+ /* Opt-in FH6 trial, Darwin couples the native IPv6 hop limit to dual-stack IPv4 TTL */
++/* Numeric-only diagnostics, indices are documented in logs/ttl-audit-layout.json */
++static volatile LONG fh6_ttl_observations[33];
++
+ static int fh6_set_ip_ttl( SOCKET s, const char *optval, int optlen )
+ {
+     static LONG diagnostics;
+     struct sockaddr_storage address;
+     WCHAR gate[2];
+-    DWORD value, error, fallback_error;
+-    int ret, type, v6only, size;
++    DWORD value, error, fallback_error, gate_length, query_error;
++    int ret, type, v6only, size, query_ret;
+ 
+     ret = server_setsockopt( s, IOCTL_AFD_WINE_SET_IP_TTL, optval, optlen );
+     error = GetLastError();
+-    if (!ret || error != WSAEINVAL || !optval || optlen != sizeof(value)) return ret;
++    InterlockedIncrement( &fh6_ttl_observations[0] );
++    InterlockedExchange( &fh6_ttl_observations[16], ret );
++    InterlockedExchange( &fh6_ttl_observations[17], error );
++    InterlockedExchange( &fh6_ttl_observations[18], optlen );
++    if (!ret)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[1] );
++        return ret;
++    }
++    if (error != WSAEINVAL)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[2] );
++        return ret;
++    }
++    if (!optval || optlen != sizeof(value))
++    {
++        InterlockedIncrement( &fh6_ttl_observations[3] );
++        return ret;
++    }
+     memcpy( &value, optval, sizeof(value) );
+-    if (value != 255) return ret;
+-    if (GetEnvironmentVariableW( L"FH6_DUALSTACK_TTL255", gate, ARRAY_SIZE(gate) ) != 1 || gate[0] != '1')
++    InterlockedExchange( &fh6_ttl_observations[19], value );
++    if (value != 255)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[4] );
++        return ret;
++    }
++    gate_length = GetEnvironmentVariableW( L"FH6_DUALSTACK_TTL255", gate, ARRAY_SIZE(gate) );
++    InterlockedExchange( &fh6_ttl_observations[20], gate_length );
++    InterlockedExchange( &fh6_ttl_observations[21], gate_length == 1 ? gate[0] : 0 );
++    if (gate_length != 1 || gate[0] != '1')
++    {
++        InterlockedIncrement( &fh6_ttl_observations[5] );
+         goto unchanged;
++    }
+     size = sizeof(address);
+-    if (getsockname( s, (struct sockaddr *)&address, &size ) || address.ss_family != AF_INET6)
++    query_ret = getsockname( s, (struct sockaddr *)&address, &size );
++    query_error = GetLastError();
++    InterlockedExchange( &fh6_ttl_observations[22], query_ret );
++    InterlockedExchange( &fh6_ttl_observations[23], query_error );
++    if (query_ret)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[6] );
+         goto unchanged;
++    }
++    InterlockedExchange( &fh6_ttl_observations[24], address.ss_family );
++    if (address.ss_family != AF_INET6)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[7] );
++        goto unchanged;
++    }
+     size = sizeof(type);
+-    if (getsockopt( s, SOL_SOCKET, SO_TYPE, (char *)&type, &size ) || type != SOCK_DGRAM)
++    query_ret = getsockopt( s, SOL_SOCKET, SO_TYPE, (char *)&type, &size );
++    query_error = GetLastError();
++    InterlockedExchange( &fh6_ttl_observations[25], query_ret );
++    InterlockedExchange( &fh6_ttl_observations[26], query_error );
++    if (query_ret)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[8] );
+         goto unchanged;
++    }
++    InterlockedExchange( &fh6_ttl_observations[27], type );
++    if (type != SOCK_DGRAM)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[9] );
++        goto unchanged;
++    }
+     size = sizeof(v6only);
+-    if (getsockopt( s, IPPROTO_IPV6, IPV6_V6ONLY, (char *)&v6only, &size ) || v6only)
++    query_ret = getsockopt( s, IPPROTO_IPV6, IPV6_V6ONLY, (char *)&v6only, &size );
++    query_error = GetLastError();
++    InterlockedExchange( &fh6_ttl_observations[28], query_ret );
++    InterlockedExchange( &fh6_ttl_observations[29], query_error );
++    if (query_ret)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[10] );
+         goto unchanged;
++    }
++    InterlockedExchange( &fh6_ttl_observations[30], v6only );
++    if (v6only)
++    {
++        InterlockedIncrement( &fh6_ttl_observations[11] );
++        goto unchanged;
++    }
++    InterlockedIncrement( &fh6_ttl_observations[12] );
+     ret = server_setsockopt( s, IOCTL_AFD_WINE_SET_IPV6_UNICAST_HOPS, optval, optlen );
+     fallback_error = GetLastError();
++    InterlockedExchange( &fh6_ttl_observations[31], ret );
++    InterlockedExchange( &fh6_ttl_observations[32], fallback_error );
++    InterlockedIncrement( &fh6_ttl_observations[ret ? 14 : 13] );
+     if (InterlockedIncrement( &diagnostics ) <= 32)
+         fprintf( stderr, "FH6_UDP_TTL255 pid=%lu tid=%lu socket=%Ix original_error=%lu result=%d error=%lu\n",
+                  GetCurrentProcessId(), GetCurrentThreadId(), s, error, ret, fallback_error );

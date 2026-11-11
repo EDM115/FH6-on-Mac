@@ -1,6 +1,6 @@
 # Investigation log
 
-This is a summary of the local tests from 1–4 October 2026. The repository keeps selected source files, not raw dumps, account state or game assets.
+This page covers the local tests from October 1 to 4, 2026. The [October 24 and 25 follow-up](advances-2026-10.md) records the timestamp, sign-in, graphics, audio, memory, msync and online advances. The repository keeps selected source files, not raw dumps, account state or game assets.
 
 | Stage | Test and result | What we learned |
 | --- | --- | --- |

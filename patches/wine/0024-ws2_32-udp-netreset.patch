@@ -1,0 +1,78 @@
+--- a/dlls/ws2_32/socket.c
++++ b/dlls/ws2_32/socket.c
+@@ -2242,6 +2242,7 @@
+         IOCTL_NAME(SIO_SET_QOS);
+         IOCTL_NAME(SIO_TRANSLATE_HANDLE);
+         IOCTL_NAME(SIO_UDP_CONNRESET);
++        IOCTL_NAME(SIO_UDP_NETRESET);
+     }
+ #undef IOCTL_NAME
+ 
+@@ -2678,11 +2679,12 @@
+     }
+ 
+     case SIO_UDP_CONNRESET:
++    case SIO_UDP_NETRESET:
+     {
+         NTSTATUS status = STATUS_SUCCESS;
+         DWORD ret;
+ 
+-        FIXME( "SIO_UDP_CONNRESET stub\n" );
++        FIXME( "%s stub\n", debugstr_wsaioctl( code ) );
+         ret = server_ioctl_sock( s, IOCTL_AFD_WINE_COMPLETE_ASYNC, &status, sizeof(status),
+                                  NULL, 0, ret_size, overlapped, completion );
+         SetLastError( ret );
+--- a/dlls/ws2_32/tests/sock.c
++++ b/dlls/ws2_32/tests/sock.c
+@@ -6269,6 +6269,28 @@
+         closesocket(s);
+ }
+ 
++static void test_udp_reset_options(void)
++{
++    SOCKET s;
++    DWORD size;
++    BOOL enable;
++    int ret;
++
++    s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
++    ok(s != INVALID_SOCKET, "socket failed: %u\n", WSAGetLastError());
++    if (s == INVALID_SOCKET)
++        return;
++
++    enable = FALSE;
++    ret = WSAIoctl(s, SIO_UDP_CONNRESET, &enable, sizeof(enable), NULL, 0, &size, NULL, NULL);
++    ok(!ret, "SIO_UDP_CONNRESET failed: %u\n", WSAGetLastError());
++
++    ret = WSAIoctl(s, SIO_UDP_NETRESET, &enable, sizeof(enable), NULL, 0, &size, NULL, NULL);
++    ok(!ret, "SIO_UDP_NETRESET failed: %u\n", WSAGetLastError());
++
++    closesocket(s);
++}
++
+ static BOOL drain_pause = FALSE;
+ static DWORD WINAPI drain_socket_thread(LPVOID arg)
+ {
+@@ -14931,6 +14953,7 @@
+     test_sioAddressListChange();
+     test_base_handle();
+     test_circular_queueing();
++    test_udp_reset_options();
+     test_unsupported_ioctls();
+ 
+     test_WSASendMsg();
+--- a/include/mswsock.h
++++ b/include/mswsock.h
+@@ -84,10 +84,12 @@
+ 
+ #ifndef USE_WS_PREFIX
+ #define SIO_UDP_CONNRESET               _WSAIOW(IOC_VENDOR, 12)
++#define SIO_UDP_NETRESET                _WSAIOW(IOC_VENDOR, 15)
+ #define SIO_SET_COMPATIBILITY_MODE      _WSAIOW(IOC_VENDOR, 300)
+ #define SIO_BASE_HANDLE                 _WSAIOR(IOC_WS2, 34)
+ #else
+ #define WS_SIO_UDP_CONNRESET            _WSAIOW(WS_IOC_VENDOR, 12)
++#define WS_SIO_UDP_NETRESET             _WSAIOW(WS_IOC_VENDOR, 15)
+ #define WS_SIO_SET_COMPATIBILITY_MODE   _WSAIOW(WS_IOC_VENDOR, 300)
+ #define WS_SIO_BASE_HANDLE              _WSAIOR(WS_IOC_WS2, 34)
+ #endif

@@ -7,6 +7,7 @@ this process. --original reverses that write. No code or game files are patched.
 Each sample rechecks the pointer chain, types, and constant config block.
 """
 import argparse, contextlib, datetime, io, json, struct, subprocess, sys
+import hashlib
 from pathlib import Path
 from read_process_session import ReadSession
 from local_config import load_config
@@ -20,6 +21,10 @@ opts.add_argument('--original', action='store_true')
 opts.add_argument('--test', action='store_true')
 args = parser.parse_args()
 cfg = load_config()
+game = cfg['bottle']/'drive_c/Program Files (x86)/Steam/steamapps/common/ForzaHorizon6/forzahorizon6.exe'
+with game.open('rb') as stream:
+    if hashlib.file_digest(stream, 'sha256').hexdigest() != 'fec4a63cdead26f6528564f0e33c3d7fd02cd887337ed6e1aeaca79eb2843fcd':
+        raise SystemExit('This helper only supports FH6 440.853, revalidate addresses before inspecting another build')
 d = cfg["state"] / "timing"
 d.mkdir(parents=True, exist_ok=True)
 pid = args.pid
@@ -211,7 +216,7 @@ build_pe.root=outdir;(outdir/'probe.s').write_text(a)
 with contextlib.redirect_stdout(io.StringIO()):build_pe.build('probe.s','probe.exe')
 probe='Z:'+str(outdir/'probe.exe').replace('/','\\')
 print(json.dumps({'state':'running','directory':str(outdir),'test':test}),flush=True)
-r=subprocess.run([str(cfg['probe_runtime']/'bin/wine'),'--bottle',str(cfg['bottle']),'--debugmsg','-all','--cx-app',probe],capture_output=True,timeout=55)
+r=subprocess.run([str(cfg['probe_runtime']/'bin/wine'),'--bottle',str(cfg['bottle']),'--debugmsg','-all','--ux-app',str(cfg['loader']),'--',probe],capture_output=True,timeout=55)
 (outdir/'numeric-samples.bin').write_bytes(r.stdout)
 (outdir/'stderr.log').write_bytes(r.stderr)
 assert len(r.stdout)%64==0

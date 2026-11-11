@@ -5,10 +5,10 @@ This is the manual reconstruction path for the tested combination. The original 
 ## Prerequisites
 
 - Apple silicon Mac. The tested machine and versions are in the [README](../README.md).
-- A legitimate Steam installation of FH6 build 440.853 in CrossOver 26.3.
+- A legitimate Steam installation of FH6 6.461.691.0 / Steam build 25588841 in the tested CrossOver 26.3 setup. The earlier 440.853 route is historical.
 - Apple's **Evaluation environment for Windows games 4.0 beta 2**, obtained from [Apple Developer Downloads](https://developer.apple.com/download/all/). Obtain it yourself and follow its license terms.
 - Rosetta 2 and Apple command-line tools, including `clang` and `clang++`.
-- Python 3.11 or newer. The tools use the standard library; no pip packages are needed for the current launch path.
+- Python 3.11 or newer. The Python tools use the standard library. Rebuilding the Windows components/probes also needs mingw-w64, Bison and Flex.
 - The bottle's native Microsoft C++ runtime group: `concrt140`, `msvcp140`, `msvcp140_atomic_wait`, `vcruntime140`, `vcruntime140_1`.
 
 ## Make private copies
@@ -41,6 +41,10 @@ f5b56df1b8fe8b364dd9530651a3769c8aed948bd343be3b4510604d503e2bad
 ```
 
 Check the file with `shasum -a 256`. A different hash needs a new review of the hook, not a replacement hash in the launcher.
+
+## Prepare the newer components
+
+Follow the [Wine and timestamp/layout component guide](wine-components.md) for the checked source patches, local builds and stopped private-runtime installation. The quiet online fix includes the final one-byte V6ONLY correction. The current path does not use the old CPU-selector write
 
 ## Build the helpers
 
@@ -90,11 +94,11 @@ python3 tools/restore_display_proxy.py
 No game shaders ship in this repo. First collect the bytecode cache from your own copy:
 
 ```sh
-python3 tools/launch.py --mode shader-control --check
-python3 tools/launch.py --mode shader-control
+python3 tools/launch_current.py --mode shader-control --check
+python3 tools/launch_current.py --mode shader-control
 ```
 
-Wait for the title, then exit FH6 and that Steam client. This control run uses original shaders and a separate cache under `.local/shaders/control-cache/`. It is for cache collection, not loading into gameplay.  
+For a locally rebuilt runtime, add `--rebuilt-components` to both commands. Wait for the title, then exit FH6 and that Steam client. This control run uses original shaders and a separate cache under `.local/shaders/control-cache/`. It is for cache collection, not loading into gameplay.  
 Find the bytecode cache:
 
 ```sh

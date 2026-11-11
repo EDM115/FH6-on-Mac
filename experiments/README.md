@@ -1,6 +1,23 @@
 # Experiment archive
 
-Selected authored scripts from the investigation. Historical Python files stop before running; several depend on old lab helpers, fixed process identities or one test session. Read and port them rather than treating this folder as a second launcher. Native probes need an explicit build.
+The new experiments below include portable source and dated results from October 24 and 25. The older archive remains further down this page. Historical Python snapshots explicitly stop before running, the new frame-capture tool is an active opt-in diagnostic. Read each experiment before using it, native probes need an explicit build
+
+## October 24 and 25 experiments
+
+| Investigation | Result |
+| --- | --- |
+| [Timestamp queries](timestamp-queries/) | Advancing compatibility values without a live game-selector write |
+| [Saved login](saved-login/) | Credential prefix fix and three clean remembered sign-ins |
+| [Vertex layout](vertex-layout/) | Per-slot offset backport and repaired test livery |
+| [Spatial audio](spatial-audio/) | Initial engine/voice improvement, residual car-change mute and bounded diagnostics |
+| [Memory footprint](memory-footprint/) | Corrected process accounting and reserved-versus-touched controls |
+| [msync registration](msync-registration/) | Reproduced and fixed a paired client/server registration leak |
+| [Online sessions](online-session/) | Negative NETRESET control, checked TTL failure and final quiet online fix |
+| [Frame pauses](frame-pauses/) | Controlled timing/counter observations, no validated pause fix |
+
+Build the Windows probes with `python3 tools/build_experiment_probes.py`. Run synthetic API tests in a separate account-free bottle with the intended component mappings, not the working game bottle. Match the Wine client/server synchronization setting. Native source fixtures run without Wine through `python3 tools/run_source_checks.py`
+
+## October 1 to 4 archive
 
 | Investigation | Result |
 | --- | --- |
@@ -14,4 +31,4 @@ Selected authored scripts from the investigation. Historical Python files stop b
 | [Texture-view logging](depth-logging/) | The first logger missed the failing swizzle overload. Version 2 recorded the Depth32Float source, R32Float request and four-sample texture. That led to the guarded source-view repair in src/depth/. |
 | [Shader capture attempt](shader-capture/) | The initial converter interposer loaded in the game but captured no shaders. Reading a private D3DMetal cache snapshot recovered the 26 relevant containers. The same capture code worked with the synthetic shader. |
 
-The archive excludes game disassembly, UI archives, shader bytecode, vendor code, raw results and credentials. The current launch path is in [docs/launch.md](../docs/launch.md).
+The export excludes game disassembly, UI archives, extracted shader bytecode, vendor binaries, raw captures and credentials. Upstream source excerpts retain their own notices in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md). The current launch path is in [docs/launch.md](../docs/launch.md).

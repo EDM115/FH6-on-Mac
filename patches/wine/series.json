@@ -1,0 +1,122 @@
+{
+  "source_archive": "https://media.codeweavers.com/pub/crossover/source/crossover-sources-26.3.0.tar.gz",
+  "source_archive_sha256": "ac99c8ca4b3848f3e81784135f023df266b61c2345726ea55a50b3e030dd6872",
+  "source_subdirectory": "sources/wine",
+  "patches": [
+    {
+      "file": "0003-ntdll-winedllpath-prepend.patch",
+      "sha256": "69fa107f57c5ffa96f8d48bf16a81eba33a99e1bd7296998feb4d18bf9a886e4",
+      "before": {
+        "dlls/ntdll/unix/loader.c": "451eb34296572d19e072b7399f5e4d6b053a0e809ccb0dedfe18da7c523703b2"
+      },
+      "after": {
+        "dlls/ntdll/unix/loader.c": "d92d9e5f5ae5dabfff658b79f15a0a35a5c0c19acb792a12c661d88407bf1692"
+      }
+    },
+    {
+      "file": "0014-msync-unregister-early-return.patch",
+      "sha256": "09c46f062f7e936bb331274192ce3436dbd18242a1b1618ca4944b6193158715",
+      "before": {
+        "dlls/ntdll/unix/msync.c": "30dd83ed51240bfaf206bd16a6b765c6dfe748fba10265306a122c3281588cda",
+        "server/msync.c": "75b0e6780381c9ecbb8efd0e34f6e3d127c7de9c09937e6009ba3b8332d7b8a1"
+      },
+      "after": {
+        "dlls/ntdll/unix/msync.c": "4ae0ad9221507615e9a3df40de624bd2ba948c2779d7c65389bf110475fbc334",
+        "server/msync.c": "86a021fecc8169642673bfba0c4e967f87f635efc2563988061a11f1b2bc8490"
+      }
+    },
+    {
+      "file": "0018-macos-commit-charge-is-the-footprint.patch",
+      "sha256": "f38dcd6536ba463824071b9043db4e6126ea1dc6ef76b1549f782dd5d592778e",
+      "before": {
+        "dlls/ntdll/unix/process.c": "4e6b205b61b9b43733852a25318fec4421d27a88fc891232e911a75ca395a05e"
+      },
+      "after": {
+        "dlls/ntdll/unix/process.c": "ef88e0b24888bbacf9a51c182745ef97d0cabb8e9c402057f4849ea5a398c181"
+      }
+    },
+    {
+      "file": "0019-advapi32-credenumerate-empty-keychain-is-not-an-error.patch",
+      "sha256": "cdde79f08bbf892735ae883ff6389068a4ec4faa136bdba36637142f0ace8e84",
+      "before": {
+        "dlls/advapi32/cred.c": "e321374103209c47dd91b169406c639408ac9971c395d2ab0b94fc651d8aef82"
+      },
+      "after": {
+        "dlls/advapi32/cred.c": "6cb4855b524e7748e3b503fca4515704e7d76aa834fe4aa270c84762162e7117"
+      }
+    },
+    {
+      "file": "0022-mmdevapi-spatial-static-object-order.patch",
+      "sha256": "4f56403c24657cbd5517e10b2acfea48eacc8b5711de7889df3411437e8c15ca",
+      "before": {
+        "dlls/mmdevapi/spatialaudio.c": "f837f2cbcb67b70fca5a28489ac45575ffe0419fcb2dbcb3bb4c506d6abcace5"
+      },
+      "after": {
+        "dlls/mmdevapi/spatialaudio.c": "bb4fc48f69b463d9b1c953d14f67c48fdf024b32095831fd49729ea0aca78ffc"
+      }
+    },
+    {
+      "file": "0023-winecoreaudio-spatial-mixer-for-surround-beds.patch",
+      "sha256": "245fcf202c3ea2a9c866810161e7851395ca3915522d77d481929a6658a37d08",
+      "before": {
+        "dlls/winecoreaudio.drv/coreaudio.c": "635347dcfc86800ed64737c6487a808836240e7846c6af699493e7a683d3f42c"
+      },
+      "after": {
+        "dlls/winecoreaudio.drv/coreaudio.c": "8bc6a1430b1c99a85ea2bb8e002ff09ca63005ef25002f8a2de3e8511cda90de"
+      }
+    },
+    {
+      "file": "0024-ws2_32-udp-netreset.patch",
+      "sha256": "da3a5f6cf59ec3bebb886a38467a0f6fe821df7efd6f31030ae82a5a12e96579",
+      "before": {
+        "dlls/ws2_32/socket.c": "e35fb73411e741ef373d5fb4ae6e1a4220144c86ed66f91f9e80df32e40d7a01",
+        "dlls/ws2_32/tests/sock.c": "dda66de6aeeacb6c21bf3e668db81ebcba8171ec7a1918531cb9d17ec0fbd213",
+        "include/mswsock.h": "6646ccc8ed0093cb00d4f6bfe124ce40e4ce0813ee48a9b71c74ae180c98338a"
+      },
+      "after": {
+        "dlls/ws2_32/socket.c": "2a60b8fd6f546ed5684b26d6e75e34fd499ae9b138b1960d00e71bccdae9e61a",
+        "dlls/ws2_32/tests/sock.c": "a6f61a58a9070b8edec9a3a03a2056b522b2a76f173054c37b5f2a24618718af",
+        "include/mswsock.h": "ba68ef34d6cac05123f9698e884982ee63d11f2fd6100d22379bf95c7a1649ed"
+      }
+    },
+    {
+      "file": "0025-fh6-dualstack-ttl255.patch",
+      "sha256": "57d3d7e42683ccd60970a579a912678b39324605762375ff92be659d1ada32ee",
+      "before": {
+        "dlls/ws2_32/socket.c": "2a60b8fd6f546ed5684b26d6e75e34fd499ae9b138b1960d00e71bccdae9e61a"
+      },
+      "after": {
+        "dlls/ws2_32/socket.c": "1750ad32fc6a81360902e1b9c4b0b024283a911119bf39d1e391512b412683ec"
+      }
+    },
+    {
+      "file": "winhttp-metadata-diagnostic.patch",
+      "sha256": "9cde44c7a58d8f2f4359c64a661d1439fae2ed9ba21a23594c52dc81505e06b5",
+      "before": {
+        "dlls/winhttp/session.c": "cb47a71ecf2428323d358eb4360ec8b6c40e3274efcc610c36b98798147f3b38",
+        "dlls/winhttp/request.c": "fb0a3de52a7b1c80cc588a556e5c05fc593ada962a1a62a76b4ee08cd0f1bb62",
+        "dlls/winhttp/winhttp_private.h": "94af2c8b878179f4fd8501914791aa215bac9bbca580138dc9ee8459912ef829"
+      },
+      "after": {
+        "dlls/winhttp/session.c": "41c43df0272b2acb53594a2208ad0b705a4530f260fbd7b198417c16a941db91",
+        "dlls/winhttp/request.c": "6196069ab451367f2899b5c1e67425f90061b93b5c25d8a8cde1a8c257413820",
+        "dlls/winhttp/winhttp_private.h": "5ae1926d36daea07728edb31a4e95d63b08591da66362539ff2d23bda9d30a96"
+      }
+    }
+  ],
+  "final_files": {
+    "dlls/ntdll/unix/loader.c": "d92d9e5f5ae5dabfff658b79f15a0a35a5c0c19acb792a12c661d88407bf1692",
+    "dlls/ntdll/unix/msync.c": "4ae0ad9221507615e9a3df40de624bd2ba948c2779d7c65389bf110475fbc334",
+    "server/msync.c": "86a021fecc8169642673bfba0c4e967f87f635efc2563988061a11f1b2bc8490",
+    "dlls/ntdll/unix/process.c": "ef88e0b24888bbacf9a51c182745ef97d0cabb8e9c402057f4849ea5a398c181",
+    "dlls/advapi32/cred.c": "6cb4855b524e7748e3b503fca4515704e7d76aa834fe4aa270c84762162e7117",
+    "dlls/mmdevapi/spatialaudio.c": "bb4fc48f69b463d9b1c953d14f67c48fdf024b32095831fd49729ea0aca78ffc",
+    "dlls/winecoreaudio.drv/coreaudio.c": "8bc6a1430b1c99a85ea2bb8e002ff09ca63005ef25002f8a2de3e8511cda90de",
+    "dlls/ws2_32/socket.c": "1750ad32fc6a81360902e1b9c4b0b024283a911119bf39d1e391512b412683ec",
+    "dlls/ws2_32/tests/sock.c": "a6f61a58a9070b8edec9a3a03a2056b522b2a76f173054c37b5f2a24618718af",
+    "include/mswsock.h": "ba68ef34d6cac05123f9698e884982ee63d11f2fd6100d22379bf95c7a1649ed",
+    "dlls/winhttp/session.c": "41c43df0272b2acb53594a2208ad0b705a4530f260fbd7b198417c16a941db91",
+    "dlls/winhttp/request.c": "6196069ab451367f2899b5c1e67425f90061b93b5c25d8a8cde1a8c257413820",
+    "dlls/winhttp/winhttp_private.h": "5ae1926d36daea07728edb31a4e95d63b08591da66362539ff2d23bda9d30a96"
+  }
+}

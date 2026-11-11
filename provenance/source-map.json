@@ -1,6 +1,6 @@
 {
-  "description": "Selected authored sources from the private lab; relative identifiers only. Export adapters and documentation are maintained separately. No captured results are distributed.",
-  "snapshot_date": "2026-10-06",
+  "description": "Selected lab sources and adapters, with upstream-derived files covered by THIRD_PARTY_NOTICES.md. Relative source identifiers and input hashes only, no private captures or runtime assets",
+  "snapshot_date": "2026-11-11",
   "files": [
     {
       "source": "work/display-size-shim/build_pe.py",
@@ -61,12 +61,6 @@
       "export": "tests/native/depth_read_probe.mm",
       "adapted": false,
       "source_sha256": "ea52b87102027d052e5bba9d1c9073a7ab120d915b5064f9831f66683078d843"
-    },
-    {
-      "source": "work/signin-resume-2026-10-04/frame_timing_session.py",
-      "export": "tools/frame_timing_session.py",
-      "adapted": true,
-      "source_sha256": "40a88879ab7a65daf7943030d9ca1abe3c0aefa344164b853d7bb44dfce47aea"
     },
     {
       "source": "work/signin-resume-2026-10-04/read_process_session.py",
@@ -355,6 +349,299 @@
       "export": "tools/restore_display_proxy.py",
       "adapted": true,
       "source_sha256": "96f69559e6c8fc9cd22e4ef0154cc1d3d4dfd4d53133bceff40b4546b2ad4388"
+    },
+    {
+      "source": "work/memory-accounting-2026-10-24/source/0003-ntdll-winedllpath-prepend.patch",
+      "export": "patches/wine/0003-ntdll-winedllpath-prepend.patch",
+      "adapted": false,
+      "source_sha256": "69fa107f57c5ffa96f8d48bf16a81eba33a99e1bd7296998feb4d18bf9a886e4"
+    },
+    {
+      "source": "work/msync-trial-2026-10-24/source/0014-msync-unregister-early-return.patch",
+      "export": "patches/wine/0014-msync-unregister-early-return.patch",
+      "adapted": false,
+      "source_sha256": "09c46f062f7e936bb331274192ce3436dbd18242a1b1618ca4944b6193158715"
+    },
+    {
+      "source": "work/memory-accounting-2026-10-24/source/0018-macos-commit-charge-is-the-footprint.patch",
+      "export": "patches/wine/0018-macos-commit-charge-is-the-footprint.patch",
+      "adapted": false,
+      "source_sha256": "f38dcd6536ba463824071b9043db4e6126ea1dc6ef76b1549f782dd5d592778e"
+    },
+    {
+      "source": "work/auth-persistence-2026-10-24/source/0019-advapi32-credenumerate-empty-keychain-is-not-an-error.patch",
+      "export": "patches/wine/0019-advapi32-credenumerate-empty-keychain-is-not-an-error.patch",
+      "adapted": false,
+      "source_sha256": "cdde79f08bbf892735ae883ff6389068a4ec4faa136bdba36637142f0ace8e84"
+    },
+    {
+      "source": "work/audio-trial-2026-10-24/source/0022-mmdevapi-spatial-static-object-order.patch",
+      "export": "patches/wine/0022-mmdevapi-spatial-static-object-order.patch",
+      "adapted": false,
+      "source_sha256": "4f56403c24657cbd5517e10b2acfea48eacc8b5711de7889df3411437e8c15ca"
+    },
+    {
+      "source": "work/audio-trial-2026-10-24/source/0023-winecoreaudio-spatial-mixer-for-surround-beds.patch",
+      "export": "patches/wine/0023-winecoreaudio-spatial-mixer-for-surround-beds.patch",
+      "adapted": false,
+      "source_sha256": "245fcf202c3ea2a9c866810161e7851395ca3915522d77d481929a6658a37d08"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/patches/0024-ws2_32-udp-netreset.patch",
+      "export": "patches/wine/0024-ws2_32-udp-netreset.patch",
+      "adapted": false,
+      "source_sha256": "da3a5f6cf59ec3bebb886a38467a0f6fe821df7efd6f31030ae82a5a12e96579"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/source/winhttp-metadata-diagnostic.patch",
+      "export": "patches/wine/winhttp-metadata-diagnostic.patch",
+      "adapted": true,
+      "source_sha256": "35dc4ccc812df742a09f18ada49deab3132741d7466e1204b9f3b8f528b0628c"
+    },
+    {
+      "source": "work/vertex-layout-2026-10-24/tsshim/d3d12.c",
+      "export": "third_party/highball-tsshim/d3d12.c",
+      "adapted": true,
+      "source_sha256": "fb6ecc69d1d052ba1942016b2ee021dccb63ee48ec71f3fa117971a3e34efa98"
+    },
+    {
+      "source": "work/vertex-layout-2026-10-24/tsshim/d3d12.def",
+      "export": "third_party/highball-tsshim/d3d12.def",
+      "adapted": false,
+      "source_sha256": "b9566216f9b5d20ee48e24cd3fbd7c563b1b55e26520bf34f748d357684ea467"
+    },
+    {
+      "source": "work/timestamp-trial-2026-10-24/tools/mark_builtin.py",
+      "export": "third_party/highball-tsshim/mark_builtin.py",
+      "adapted": true,
+      "source_sha256": "256175837ec84f48d5bd71bc835fe5320cf7cbbb3ccf74be49449efb6a2d6dee"
+    },
+    {
+      "source": "work/timestamp-trial-2026-10-24/tools/pe_export_rename.py",
+      "export": "third_party/highball-tsshim/pe_export_rename.py",
+      "adapted": true,
+      "source_sha256": "f4a3edb7c28df3d05882fcaf3b2d52a2d7918f2d4184f3cc05cbe8360b7c23c3"
+    },
+    {
+      "source": "work/vertex-layout-2026-10-24/tests/sdk_abi_excerpt.h",
+      "export": "third_party/directx/sdk_abi_excerpt.h",
+      "adapted": false,
+      "source_sha256": "2f730c45ac6d08fb2fa96f707cfb9539aed6469eeaf0d48338084171178e069f"
+    },
+    {
+      "source": "work/timestamp-trial-2026-10-24/probe/ts_repro.c",
+      "export": "experiments/timestamp-queries/ts_repro.c",
+      "adapted": true,
+      "source_sha256": "2fccac5eb352293befe72bc34e1cdbf7fdde2d6dcfafd0b66b2f27acf05521c7"
+    },
+    {
+      "source": "work/vertex-layout-2026-10-24/tests/layout_test.c",
+      "export": "experiments/vertex-layout/layout_test.c",
+      "adapted": true,
+      "source_sha256": "e867718e490dd9080103fb8cfe5525283c29f464ae5db8ff11f55d0a67d54e50"
+    },
+    {
+      "source": "work/auth-persistence-2026-10-24/probe/credential_filter.c",
+      "export": "experiments/saved-login/credential_filter.c",
+      "adapted": false,
+      "source_sha256": "b13faabfcaead84f65e2942b86ab63a70a88f045c6981159ea70007eed3a0ff5"
+    },
+    {
+      "source": "work/audio-trial-2026-10-24/tests/audio_client_probe.c",
+      "export": "experiments/spatial-audio/audio_client_probe.c",
+      "adapted": false,
+      "source_sha256": "567443044ee96788912691dc98e38b4d9bb2ed0fb0cb2f2769a38f6d4490ace4"
+    },
+    {
+      "source": "work/audio-trial-2026-10-24/tests/channel_order.c",
+      "export": "experiments/spatial-audio/channel_order.c",
+      "adapted": false,
+      "source_sha256": "0a95809307f4c1b10a6414a01e1762b0890a3ea6bd552f67eee12626fb88827e"
+    },
+    {
+      "source": "work/audio-trial-2026-10-24/tests/map-control.h",
+      "export": "experiments/spatial-audio/map-control.h",
+      "adapted": true,
+      "source_sha256": "885dca229830235f644f55942c812b6fc85fc6a5cf4540a3645cdd6a8a749ff0"
+    },
+    {
+      "source": "work/audio-trial-2026-10-24/tests/map-patched.h",
+      "export": "experiments/spatial-audio/map-patched.h",
+      "adapted": true,
+      "source_sha256": "fc4b0297f4a02e3e275b204d13254a349ce7822bef8abfc9db5d31c5fc1958a6"
+    },
+    {
+      "source": "work/audio-trial-2026-10-24/tests/spatial_mixer_probe.c",
+      "export": "experiments/spatial-audio/spatial_mixer_probe.c",
+      "adapted": true,
+      "source_sha256": "bf9a2aef87ace4d04391624fc529d1362eec71367ef7097929cbefb48060401e"
+    },
+    {
+      "source": "work/audio-car-change-2026-10-24/logs/audio-statistics.patch",
+      "export": "experiments/spatial-audio/audio-statistics.patch",
+      "adapted": true,
+      "source_sha256": "bf097258854c62003f8fda693cc7236c589181d8da18d1d8135db64e638f12d3"
+    },
+    {
+      "source": "work/memory-accounting-2026-10-24/tests/counter_semantics.c",
+      "export": "experiments/memory-footprint/counter_semantics.c",
+      "adapted": false,
+      "source_sha256": "c9533cabf75bc8c12421e20a99bd36e35823b747380ca762e1b9db20d7331649"
+    },
+    {
+      "source": "work/memory-accounting-2026-10-24/tests/counters-control.h",
+      "export": "experiments/memory-footprint/counters-control.h",
+      "adapted": true,
+      "source_sha256": "0611bd6b2b0a7b0aaf6639dc37c3b81657f7d7f08b4aa355cce298e6135fe7e1"
+    },
+    {
+      "source": "work/memory-accounting-2026-10-24/tests/counters-patched.h",
+      "export": "experiments/memory-footprint/counters-patched.h",
+      "adapted": true,
+      "source_sha256": "3b70125f6f7dc0a35fc22df63402bf0500dd02f8e3c38ef8ce7d2076aabbac36"
+    },
+    {
+      "source": "work/memory-accounting-2026-10-24/tests/host_memory.c",
+      "export": "experiments/memory-footprint/host_memory.c",
+      "adapted": false,
+      "source_sha256": "4521181f56876c057475e5c243a8384f51758c44ba02f87bd4bed6c18e88c568"
+    },
+    {
+      "source": "work/memory-accounting-2026-10-24/tests/memory_client_probe.c",
+      "export": "experiments/memory-footprint/memory_client_probe.c",
+      "adapted": false,
+      "source_sha256": "b4bd73af0071433e43c18b7dcc6d60b8b80c0c097bea155d70cefaa9f71fa1dc"
+    },
+    {
+      "source": "work/msync-trial-2026-10-24/tests/control-source-fixture.c",
+      "export": "experiments/msync-registration/control-source-fixture.c",
+      "adapted": true,
+      "source_sha256": "96a1c388da891c1bb272e1b586e08f5f9ea27fa429ea3dfb2d6577a13e63945d"
+    },
+    {
+      "source": "work/msync-trial-2026-10-24/tests/patched-source-fixture.c",
+      "export": "experiments/msync-registration/patched-source-fixture.c",
+      "adapted": true,
+      "source_sha256": "936cf53db2444ecbe3dd430545175ea769d9b284d5a7532b1081be9cf76bb8aa"
+    },
+    {
+      "source": "work/msync-trial-2026-10-24/tests/wait_probe.c",
+      "export": "experiments/msync-registration/wait_probe.c",
+      "adapted": false,
+      "source_sha256": "721df2599d4a0c6301c203111831e1331433951208a824b3c22b8b25f6a01623"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tests/connectivity_probe.c",
+      "export": "experiments/online-session/connectivity_probe.c",
+      "adapted": false,
+      "source_sha256": "3c781b5824e588c7e74a7cb9c82c66b8699ae7a5951ecd9b01550a00c38a1ad5"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tests/http_probe.c",
+      "export": "experiments/online-session/http_probe.c",
+      "adapted": false,
+      "source_sha256": "439d51bb119f4696d0c6bfa5ada5d97a9f2044d8262f26ebcd800a131d14862d"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tests/logger_fixture.c",
+      "export": "experiments/online-session/logger_fixture.c",
+      "adapted": true,
+      "source_sha256": "ee3b9c5d095e0f51846e86a0ca17da034679fbbd5c898ea9dd8cea45ab1533de"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tests/thread_owners.c",
+      "export": "experiments/online-session/thread_owners.c",
+      "adapted": false,
+      "source_sha256": "96bb6fe479df0542483619522d02f9fb9837ca756d4a39ea2283d49f5a306187"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tests/udp_ioctl_probe.c",
+      "export": "experiments/online-session/udp_ioctl_probe.c",
+      "adapted": false,
+      "source_sha256": "46a5e135d35a813147c6eeaf38bffe216a937c3838a191763931a4717862de94"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tests/udp_ttl_probe.c",
+      "export": "experiments/online-session/udp_ttl_probe.c",
+      "adapted": false,
+      "source_sha256": "e53c3df99031d27b620d0f91669daa542b39c7f141e1519351161e22e79b650b"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tests/udp_ttl_wire_probe.c",
+      "export": "experiments/online-session/udp_ttl_wire_probe.c",
+      "adapted": false,
+      "source_sha256": "1e75742041509179c81f7053f0c7818f16552c842d29eaf38321cbb4a9390c6c"
+    },
+    {
+      "source": "work/frame-pauses-2026-10-25/map_threads.c",
+      "export": "experiments/frame-pauses/map_threads.c",
+      "adapted": false,
+      "source_sha256": "bcb627165872ffb1da0f7e7e6a21036716a80b50bf0856ad4a96076391705027"
+    },
+    {
+      "source": "work/frame-pauses-2026-10-25/capture_cpu_and_frames.py",
+      "export": "experiments/frame-pauses/capture_cpu_and_frames.py",
+      "adapted": true,
+      "source_sha256": "359d54276bdb8f40751ec0206c843a33477b025a1506216730d6730cc6656a80"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tools/launch_v2.py",
+      "export": "tools/launch.py",
+      "adapted": true,
+      "source_sha256": "701361d4a0136d10da0df8c7a46b6a6ded04ab2e9675a483243f57faf0a9e539"
+    },
+    {
+      "source": "work/title-update-trial-2026-10-24/tools/frame_timing_session.py",
+      "export": "tools/frame_timing_session.py",
+      "adapted": false,
+      "source_sha256": "4b322d4218cf4333da02427aebc3d7de60d3698dbb2c21a3536ad787a7373d45"
+    },
+    {
+      "source": "work/timestamp-trial-2026-10-24/tests/test_launch.py",
+      "export": "tests/test_launch.py",
+      "adapted": true,
+      "source_sha256": "3bcf6ba08c5ded42d8b5b2bd3069f3e75dd9bad6816890538c68b690c9de6952"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/source/ttl-fixed-wine/dlls/ws2_32/socket.c",
+      "export": "patches/wine/0025-fh6-dualstack-ttl255.patch",
+      "adapted": true,
+      "source_sha256": "1750ad32fc6a81360902e1b9c4b0b024283a911119bf39d1e391512b412683ec",
+      "note": "Consolidates lab patches 0025 and 0027, excludes audit instrumentation"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/patches/0026-fh6-ttl-silent-observations.patch",
+      "export": "experiments/online-session/history/0026-fh6-ttl-silent-observations.patch",
+      "adapted": false,
+      "source_sha256": "155c6b13a1a39846519361c559072b26fa01ac6c7d2ca50d9177e64ab6a1aa87"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/patches/0027-fh6-ttl-byte-guard.patch",
+      "export": "experiments/online-session/history/0027-fh6-ttl-byte-guard.patch",
+      "adapted": false,
+      "source_sha256": "a22fc8b476a2468f475dda07a5e54967d365f70c65df88352818c3bacb4c400f"
+    },
+    {
+      "source": "work/online-trial-2026-10-24/tools/test_ttl_guard_stack.py",
+      "export": "tests/test_ttl_guard_stack.py",
+      "adapted": true,
+      "source_sha256": "eb725b75d09e682fea6155c191f447a61e63b00c4a3c28f492f8d78a29ab87c0"
+    }
+  ],
+  "upstream_headers": [
+    {
+      "repository": "libinotify-kqueue/libinotify-kqueue",
+      "path": "sys/inotify.h",
+      "git_blob": "519bc8ef500d6a2688bd5f71cb1bd7ddf9c04857",
+      "export": "third_party/libinotify/include/sys/inotify.h",
+      "sha256": "8b59eb4e1c93299a20855b4eeae7903162b486a60ff8e11221b21a7364dbf0d4"
+    },
+    {
+      "repository": "microsoft/DirectX-Headers",
+      "path": "include/directx/d3d12.h",
+      "git_blob": "99562647170a141907183fa90809cfe61444bec4",
+      "export": "third_party/directx/sdk_abi_excerpt.h",
+      "scope": "Six test declarations extracted in the October 24 lab"
     }
   ]
 }

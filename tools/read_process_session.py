@@ -8,8 +8,9 @@ import contextlib, io, os, select, struct, subprocess, sys, tempfile
 from pathlib import Path
 from local_config import load_config
 class ReadSession:
- def __init__(self,pid):
+ def __init__(self,pid,msync=1):
   assert 0<pid<0xffffffff
+  assert msync in (0,1)
   cfg=load_config(); self.d=cfg["state"]/"probes"; self.d.mkdir(parents=True,exist_ok=True)
   import build_pe
   self.t=tempfile.TemporaryDirectory(prefix='read-session-',dir=self.d);t=Path(self.t.name)
@@ -104,7 +105,7 @@ imports:
   (t/'probe.s').write_text(a);build_pe.root=t
   with contextlib.redirect_stdout(io.StringIO()):build_pe.build('probe.s','probe.exe')
   probe='Z:'+str(t/'probe.exe').replace('/','\\')
-  self.proc=subprocess.Popen([str(cfg['probe_runtime']/'bin/wine'),'--bottle',str(cfg['bottle']),'--debugmsg','-all','--cx-app',probe],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,bufsize=0)
+  self.proc=subprocess.Popen([str(cfg['probe_runtime']/'bin/wine'),'--bottle',str(cfg['bottle']),'--debugmsg','-all','--env','WINEMSYNC='+str(msync),'--ux-app',str(cfg['loader']),'--',probe],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,bufsize=0)
   self.total=0
  def exact(self,n):
   b=b''

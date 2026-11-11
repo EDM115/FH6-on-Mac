@@ -1,54 +1,43 @@
 # Launch order
 
-Run commands from the repository root after [setup](setup.md). Finish any existing session in the cloned bottle first, including its Steam client. A running Steam process can keep the old environment.
+This guide describes the quiet online stack tested on October 25 with FH6 6.461.691.0 / Steam build 25588841 and GPTK 4 beta 2. Use the [legacy guide](legacy-launch.md) only for the older 440.853 experiment  
+Finish the game and Steam session in the selected bottle before changing runtimes or synchronization settings. The Wine client and server must agree on msync. A running Steam process can keep an earlier environment
 
-## 1. Start FH6
+## Start the checked stack
 
-```sh
-python3 tools/launch.py --check
-python3 tools/launch.py
+From the repository root, after [setup](setup.md) and [component preparation](wine-components.md) :
+
+```zsh
+python3 tools/launch_current.py --check
+python3 tools/launch_current.py
 ```
 
-Leave this terminal open. The helper selects Metal 4, Intel vendor ID, Deck sign-in, native C++ overrides and the shader/depth hooks. It writes a new private log directory for each launch. `--check` validates paths, D3DMetal and prepared shader hashes; it doesn't establish that the game will launch.
+The current wrapper checks the recorded game and component hashes, then calls the shared launcher through the native `--ux-app` loader route. It selects Metal 4, Intel vendor ID, Deck sign-in, native C++ libraries, timestamp/layout support, shader fallbacks, the depth repair, `WINEDLLPATH_PREPEND`, `WINEMSYNC=1` and `FH6_DUALSTACK_TTL255=1`  
+`FH6_HTTP_DIAG=0` disables the optional HTTP metadata records. Relay tracing and raw log capture are off. The original bounded graphics/launch filter remains active. `FH6SHIM_DIAG=1` retains the existing limited shim diagnostics, it does not enable per-resource tracing  
+The default hash profile identifies the tested lab binaries. A local rebuild can have different hashes. Use the explicit `--rebuilt-components` mode described in the [component guide](wine-components.md) to check its source/build receipts and installed artifacts. Keep the public recorded profile intact. A successful `--check` is a file/configuration check, not a gameplay result
 
-## 2. Find the current Wine PID
+## Let the game load
 
-Wait until FH6 shows its title screen. In a second terminal, from the same repository:
+Leave the launcher terminal open. Loading can take several minutes. Complete the Microsoft sign-in flow yourself if requested. The October tests remembered sign-in across three clean relaunches, which does not guarantee every later token expiry or system restart  
+No CPU timing-selector write is part of this launch. The shim supplies advancing compatibility timestamps. The old `frame_timing_session.py` is guarded to build 440.853 and rejects the updated executable before process inspection
 
-```sh
-python3 tools/window_snapshot.py title
+## Verify process identity when diagnosing a run
+
+```zsh
+python3 tools/window_snapshot.py title --msync 1
 ```
 
-Find the visible top-level window with class `App`. Its `pid` is a decimal **Wine PID**, which differs from macOS's PID. Confirm it's the FH6 window in this bottle. Don't reuse a PID from an earlier launch or pick Steam's window.
+The visible top-level `App` row contains the decimal Wine PID. macOS tools use a different host PID, identify it from its command and mapped FH6 executable. Rediscover both after every restart  
+The window probe uses a Windows `Z:` path and passes the synchronization flag through the wrapper. If testing msync off, pass `--msync 0` to this probe as well. Never launch the other mode while the bottle's original server is alive  
+Look for `FH6_TEXTURE_SOURCE_REPAIRED` in the private graphics log after loading. Check that FH6 itself maps the intended DLLs and D3DMetal, parent-only hook markers do not prove the game loaded them. A warm shader cache can produce no new replacement hits
 
-## 3. Select CPU timing
+## Online check
 
-Replace `WINE_PID` below with that decimal number:
-
-```sh
-python3 tools/frame_timing_session.py WINE_PID
-python3 tools/frame_timing_session.py WINE_PID --cpu
-python3 tools/frame_timing_session.py WINE_PID
-```
-
-The first and last commands only read. The middle command changes one checked data byte and keeps it set for this game process. A successful result has `exit_code: 0` and `final_selector: 0`. In the last read-only result, check that `frame_tick` and `ui_updates` advance and `frame_delta`/`ui_delta` become positive while the window is active.  
-If the first read already shows selector `0` with advancing time, skip `--cpu`. Reapplying it isn't necessary and its starting-value guard will reject that state.  
-A null pointer during startup means the expected objects aren't ready. Wait for title and retry the read-only command. A build or object mismatch needs investigation. Don't remove an assertion or run Python with `-O`.
-
-## 4. Start the game
-
-Choose Start Game. Complete the Microsoft QR/code flow yourself if prompted. The tested run then passed optimization, the loading screens, the garage and Drive.  
-The graphics log should show hooks loaded in the **game's host process**, shader replacements, and later `source_match=1` / `FH6_TEXTURE_SOURCE_REPAIRED`. Parent-only markers don't prove the game loaded the hooks. You can inspect a known host PID with `lsof -p HOST_PID`; don't confuse that PID with the Wine PID used above.  
-The launch helper doesn't apply timing for you. It also doesn't manage save data, login persistence, Steam shutdown or game updates.
+Successful Xbox login or livery/tune downloads do not establish a multiplayer session. The local online comparison checked other players in shared free roam and entry into The Eliminator. The final quiet runtime connected without relay or HTTP diagnostics  
+The TTL workaround remains opt-in and narrow. It handles the observed failed IP_TTL=255 request on a bound dual-stack IPv6 UDP socket by setting the native IPv6 hop option. Darwin couples that setting to both protocol hop limits. See the [online experiment](../experiments/online-session/README.md) for the guard fix, negative comparisons and tests
 
 ## Exit and rollback
 
-Exit through the game, then exit Steam in that bottle. Keep the terminal open until the launcher finishes. If a crash leaves Wine windows behind, identify the affected bottle and process before stopping anything; don't kill all Wine processes on the Mac.  
-The CPU selector resets when FH6 exits. To restore it in a verified live process:
-
-```sh
-python3 tools/frame_timing_session.py WINE_PID --original
-```
-
-That brings back the original timing behavior, including the known stall. The shader and depth hooks apply only to a process launched with them. `--mode shader-control` omits the depth repair and uses original shaders; use it only for comparison or cache collection. Restore the private API schema with the command in [setup](setup.md).  
-Useful keys from the test sessions: Command+Enter toggled fullscreen; Esc then Enter cancelled the hidden sign-in flow. These aren't fixes for a stopped loading screen.
+Exit FH6 through its menu, then exit Steam in that bottle and let its Wine server stop. If Steam stays in the background, use its normal Exit/Shutdown action. Identify the bottle and remaining processes before stopping anything after a crash  
+The failed performance comparison used `--env WINEMSYNC=0`, the recorded baseline was restored to `1`. Keep the matched patched ntdll/server pair in both arms. A synchronization-mode comparison requires a clean client/server restart  
+Keep a separate stopped runtime copy before installing rebuilt components. Restore that copy to undo a component change. Do not downgrade a newer save to the old executable, the updated profile rejected build 440.853 in the October test. Shader/depth hooks apply to the process launched with them, the legacy CPU-selector write resets at process exit

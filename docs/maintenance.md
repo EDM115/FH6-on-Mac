@@ -12,3 +12,6 @@ For an update:
 Keep runtime trees, bottles, game assets, shaders extracted from the game, cache files, binaries, logs, dumps and screenshots out of the export. Those can contain proprietary content or account details. Filtered logs can still reveal usernames, paths or tokens.  
 [The source map](../provenance/source-map.json) lists selected lab source identifiers and hashes. It contains no local absolute paths or diagnostic results. Export adapters, documentation and tests live alongside the selected sources. A copied source hash describes the lab input, not the adapted output.  
 `.gitignore` is a backstop. Review the actual files before publishing, including files that Git hasn't tracked yet.
+
+For the October patch stack, keep [series.json](../patches/wine/series.json) in sync with the actual patch bytes and checked before/after source files. The current TTL patch consolidates the original trial and byte-guard correction, archived audit patches are not extra install steps  
+The recorded runtime profile identifies the October lab artifacts. Local rebuild receipts belong under `.local`, use `--rebuilt-components` for a candidate instead of changing the public profile to make it pass. Preserve upstream license files and attribution when updating the shim or Wine-derived fixtures

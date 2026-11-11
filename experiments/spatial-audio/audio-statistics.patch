@@ -1,0 +1,111 @@
+--- a/dlls/winecoreaudio.drv/coreaudio.c
++++ b/dlls/winecoreaudio.drv/coreaudio.c
+@@ -41,6 +41,7 @@
+ #include <sys/ioctl.h>
+ #include <fcntl.h>
+ #include <fenv.h>
++#include <math.h>
+ #include <unistd.h>
+ 
+ #include <CoreAudio/CoreAudio.h>
+@@ -105,6 +106,10 @@
+ 
+     /* Multichannel output on a device with fewer channels: the stream goes through
+      * AUSpatialMixer, which renders the bed for the Mac's speakers or for headphones. */
++    BOOL spatial_stats_enabled;
++    UINT64 stats_reports, stats_input_frames, stats_output_frames, stats_short_frames;
++    UINT64 stats_nonfinite, stats_errors, stats_bad_buffers;
++    double stats_input_energy[18], stats_output_energy[2];
+     AudioUnit spatial;
+     float *spatial_buf;
+     UInt32 spatial_frames;
+@@ -425,6 +430,9 @@
+         stream->held_frames -= to_copy_frames;
+     }else
+         to_copy_bytes = to_copy_frames = 0;
++
++    if(stream->spatial_stats_enabled)
++        stream->stats_short_frames += nframes - to_copy_frames;
+ 
+     if(nframes > to_copy_frames)
+         silence_buffer(stream, ((BYTE *)data->mBuffers[0].mData) + to_copy_bytes, nframes - to_copy_frames);
+@@ -817,6 +825,16 @@
+     interleaved.mBuffers[0].mDataByteSize = nframes * stream->fmt->nBlockAlign;
+     interleaved.mBuffers[0].mData = src;
+     ca_render_cb(stream, flags, ts, 0, nframes, &interleaved);
++    if(stream->spatial_stats_enabled){
++        stream->stats_input_frames += nframes;
++        for(c = 0; c < nch && c < 18; c++){
++            for(i = 0; i < nframes; i++){
++                double v = src[i * nch + c];
++                if(isfinite(v)) stream->stats_input_energy[c] += v * v;
++                else stream->stats_nonfinite++;
++            }
++        }
++    }
+ 
+     for(c = 0; c < nch && c < data->mNumberBuffers; c++){
+         float *dst = data->mBuffers[c].mData;
+@@ -833,7 +851,52 @@
+         const AudioTimeStamp *ts, UInt32 bus, UInt32 nframes, AudioBufferList *data)
+ {
+     struct coreaudio_stream *stream = user;
+-    return AudioUnitRender(stream->spatial, flags, ts, 0, nframes, data);
++    OSStatus status = AudioUnitRender(stream->spatial, flags, ts, 0, nframes, data);
++    UInt32 c, i;
++    if(!stream->spatial_stats_enabled) return status;
++    stream->stats_output_frames += nframes;
++    if(status) stream->stats_errors++;
++    else for(c = 0; c < 2; c++){
++        const float *samples;
++        if(c >= data->mNumberBuffers || data->mBuffers[c].mNumberChannels != 1 ||
++           !data->mBuffers[c].mData || data->mBuffers[c].mDataByteSize < nframes * sizeof(float)){
++            stream->stats_bad_buffers++;
++            continue;
++        }
++        samples = data->mBuffers[c].mData;
++        for(i = 0; i < nframes; i++){
++            double v = samples[i];
++            if(isfinite(v)) stream->stats_output_energy[c] += v * v;
++            else stream->stats_nonfinite++;
++        }
++    }
++    if(stream->stats_output_frames >= (UINT64)stream->fmt->nSamplesPerSec * 2){
++        char input[512], summary[1024];
++        int length;
++        size_t used = 0;
++        input[0] = 0;
++        for(c = 0; c < stream->fmt->nChannels && c < 18; c++){
++            int count = snprintf(input + used, sizeof(input) - used, "%s%.5g", c ? "," : "",
++                                 stream->stats_input_frames ? stream->stats_input_energy[c] / stream->stats_input_frames : 0.0);
++            if(count < 0 || (size_t)count >= sizeof(input) - used) break;
++            used += count;
++        }
++        length = snprintf(summary, sizeof(summary), "winecoreaudio: stats stream=%p nch=%u report=%llu input_frames=%llu output_frames=%llu short_frames=%llu errors=%llu last_status=%d nonfinite=%llu bad_buffers=%llu input_ms=[%s] output_ms=[%.5g,%.5g]\n",
++                stream, (unsigned)stream->fmt->nChannels, (unsigned long long)++stream->stats_reports,
++                (unsigned long long)stream->stats_input_frames, (unsigned long long)stream->stats_output_frames,
++                (unsigned long long)stream->stats_short_frames, (unsigned long long)stream->stats_errors, (int)status,
++                (unsigned long long)stream->stats_nonfinite, (unsigned long long)stream->stats_bad_buffers, input,
++                stream->stats_output_energy[0] / stream->stats_output_frames,
++                stream->stats_output_energy[1] / stream->stats_output_frames);
++        /* HAL callbacks have no Wine TEB, use the native write path */
++        if(length > 0) write(2, summary, min((size_t)length, sizeof(summary) - 1));
++        stream->stats_input_frames = stream->stats_output_frames = stream->stats_short_frames = 0;
++        stream->stats_errors = stream->stats_nonfinite = stream->stats_bad_buffers = 0;
++        memset(stream->stats_input_energy, 0, sizeof(stream->stats_input_energy));
++        memset(stream->stats_output_energy, 0, sizeof(stream->stats_output_energy));
++        if(stream->stats_reports >= 600) stream->spatial_stats_enabled = FALSE;
++    }
++    return status;
+ }
+ 
+ /* Puts AUSpatialMixer between the stream and the device when the stream is a float bed with more
+@@ -920,6 +983,8 @@
+         goto fail;
+     }
+ 
++    env = getenv("HB_AUDIO_STATS");
++    stream->spatial_stats_enabled = env && !strcmp(env, "1");
+     stream->spatial_frames = SPATIAL_MAX_FRAMES;
+     stream->spatial_buf = malloc(SPATIAL_MAX_FRAMES * stream->fmt->nBlockAlign);
+     if(!stream->spatial_buf) goto fail;

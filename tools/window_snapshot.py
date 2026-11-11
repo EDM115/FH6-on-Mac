@@ -1,16 +1,21 @@
 """Run read-only metadata probe in the existing isolated Wine bottle."""
 from pathlib import Path
-import datetime, json, struct, subprocess, sys
+import argparse, datetime, json, struct, subprocess, sys
 
 from local_config import load_config
 cfg=load_config()
 root=cfg["state"]/"probes"
 root.mkdir(parents=True,exist_ok=True)
-label = sys.argv[1]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('label')
+parser.add_argument('--msync', choices=('0','1'), default='1', help='Must match the running bottle server')
+args=parser.parse_args()
+label = args.label
 assert label.replace('-','').replace('_','').isalnum()
 command = [str(cfg['probe_runtime']/'bin/wine'), '--bottle',
            str(cfg['bottle']), '--debugmsg', '-all',
-           str(root/'window_inventory.exe')]
+           '--env', 'WINEMSYNC='+args.msync, '--ux-app', str(cfg['loader']), '--',
+           'Z:'+str(root/'window_inventory.exe').replace('/', '\\')]
 started = datetime.datetime.now(datetime.timezone.utc).isoformat()
 result = subprocess.run(command, capture_output=True, timeout=30)
 (root/f'{label}.stderr.log').write_bytes(result.stderr)

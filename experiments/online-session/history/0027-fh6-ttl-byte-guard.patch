@@ -1,0 +1,12 @@
+--- a/dlls/ws2_32/socket.c
++++ b/dlls/ws2_32/socket.c
+@@ -3220,7 +3220,8 @@
+     struct sockaddr_storage address;
+     WCHAR gate[2];
+     DWORD value, error, fallback_error;
+-    int ret, type, v6only, size;
++    BYTE v6only = 1; /* Wine returns one byte for IPV6_V6ONLY */
++    int ret, type, size;
+ 
+     ret = server_setsockopt( s, IOCTL_AFD_WINE_SET_IP_TTL, optval, optlen );
+     error = GetLastError();
